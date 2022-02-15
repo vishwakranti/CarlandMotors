@@ -44,9 +44,16 @@
                      <li class="nav-item">
                         <a class="nav-link " aria-current="page" href="./">Home</a>
                      </li>
-                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="login.php">User Login</a>
-                     </li>
+                     <!--<li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="login.php">Login</a>
+                     </li>-->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Account</a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="login.php">Login</a></li>
+                            <li><a class="dropdown-item" href="signup.php">Register</a></li>
+                        </ul>
+                    </li>
                      
                      <li class="nav-item">
                         <a class="nav-link" href="wishList.php">Wish list</a>
@@ -57,9 +64,6 @@
                            <button class="btn btn-outline-success" type="submit">Search</button>
                         </form>
                      </li>
-                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="./admin/admin.php">Admin Login</a>
-                     </li>
                   </ul>
                </div>
             </div>
@@ -69,20 +73,28 @@
          <div class="container mt-0">
          <div class="row justify-content-center">
             <form class="col-sm-4 shadow p-3 mb-5 bg-body rounded">
+            <div class="col text-center">
+            <div class="mb-3">Log into your account</div>
+            </div>
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Email address</label>
                 <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
             </div>
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Password</label>
                 <input type="password" class="form-control" id="exampleInputPassword1">
             </div>
-            <div class="mb-3 form-check">
+            <!--<div class="mb-3 form-check">
                 <input type="checkbox" class="form-check-input" id="exampleCheck1">
                 <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div>-->
+            <!--<div class="mb-3">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div>-->
+            <div class="col text-center">
+            <button type="submit" class="btn btn-primary justify-content-center">Submit</button>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
             </form>
             </div>
          </div>
