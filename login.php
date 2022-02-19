@@ -55,14 +55,6 @@
 						<label for="exampleInputPassword1" class="form-label">Password</label>
 						<input type="password" class="form-control" id="exampleInputPassword1">
 					</div>
-					<!--<div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                <label class="form-check-label" for="exampleCheck1">Check me out</label>
-            </div>-->
-					<!--<div class="mb-3">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                <label class="form-check-label" for="exampleCheck1">Check me out</label>
-            </div>-->
 					<div class="col text-center">
 						<button type="submit" class="btn btn-primary justify-content-center">Submit</button>
 					</div>
