@@ -2,7 +2,10 @@
 // set to NZ time zone
 date_default_timezone_set('Pacific/Auckland');
 // start session
-session_start();
+if(!isset($_SESSION)) 
+    { 
+        session_start(); 
+    } 
 
 // $server = "localhost"; // here the database server is localhost. Variables created for easy changing
 // $user = "root";
