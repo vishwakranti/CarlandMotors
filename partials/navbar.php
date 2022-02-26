@@ -14,7 +14,7 @@ if(isset($_SESSION["logged_in"]))
 }
 
 ?>
-<nav class="navbar navbar-expand-md navbar-light bg-light justify-content-center">
+<nav class="navbar navbar-expand-md navbar-light bg-dark justify-content-center">
 	<div class="d-flex">
 		<a class="navbar-brand" href="."><img src="./images/cars_logo.png" alt="" width="200" height="100" alt="Carland Motors"></a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse"

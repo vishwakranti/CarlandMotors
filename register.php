@@ -20,8 +20,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $sql = "SELECT id FROM users WHERE email = ?";
         
         if($stmt = $mysqli->prepare($sql)){
-            $stmt->bind_param("s", $param_userEmail
-		);
+            $stmt->bind_param("s", $param_userEmail);
             
             $param_userEmail = trim($_POST["userEmail"]);
             
@@ -29,9 +28,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 // store result
                 $stmt->store_result();
                 
-                if($stmt->num_rows == 1){
+                if($stmt->num_rows == 1)
+				{
                     $userEmail_err = "This user email already exists";
-                } else{
+                } 
+				else
+				{
                     $userEmail
 				 = trim($_POST["userEmail"]);
                 }
