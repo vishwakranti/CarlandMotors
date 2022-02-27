@@ -1,3 +1,79 @@
+<?php
+
+if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
+    header("location: index.php");
+    exit;
+}
+
+//load database connections
+require_once "config.php";
+
+//declare error variables
+	$userEmail_error = $userPassword_error = $login_error =  "";
+
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+	//declare variables
+	$userEmail = $userPassword = "";
+
+	//validate userEmail
+	if(empty(trim($_POST["userEmail"]))){
+        $userEmail_error = "Please enter username.";
+    } else{
+        $userEmail = trim($_POST["userEmail"]);
+    }
+
+	//validate userPassword
+	if(empty(trim($_POST["userPassword"]))){
+        $userPassword_error = "Please enter your password.";
+    } else{
+        $userPassword = trim($_POST["userPassword"]);
+    }
+
+	//validate userEmail and userPassword
+	if(empty($userEmail_error) && empty($userPassword_error ))
+	{
+		$sql = "SELECT id, email, password FROM users WHERE email = ?";
+		if($stmt = $mysqli-> prepare($sql))
+		{
+			$stmt -> bind_param("s",$param_userEmail);
+			$param_userEmail = $userEmail;
+
+			if($stmt->execute())
+			{
+				$stmt->store_result();
+
+				if($stmt -> num_rows == 1){
+					$stmt -> bind_result($id,$userEmail, $userPassword_hash);
+					if($stmt->fetch())
+					{
+						if(password_verify($userPassword, $userPassword_hash)){
+
+							//set session variables
+							$_SESSION["id"] = $id;
+							$_SESSION["userEmail"] = $userEmail;
+
+							header("location: index.php");
+						}
+						else{
+							$login_error = "Wrong user name or password!";
+						}
+					}
+				}
+				else{
+					$login_error = "Wrong user name or password";
+				}
+			}
+			else{
+				echo "There was an unrecognized and unhandled error!";
+			}
+			$stmt->close();
+		}
+	}
+	$mysqli->close();
+}
+?>
+
 <!doctype html>
 
 <html lang="en">
@@ -19,6 +95,10 @@
 				margin-top: 20px !important;
 			}
 		}
+
+		.error {
+			color: red;
+		}
 	</style>
 </head>
 
@@ -31,21 +111,31 @@
 	<main>
 		<div class="container mt-0">
 			<div class="row justify-content-center">
-				<form class="col-sm-4 shadow p-3 mb-5 bg-body rounded">
+				<form class="col-sm-4 shadow p-3 mb-5 bg-body rounded" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>"
+				 method="POST">
 					<div class="col text-center">
 						<div class="mb-3">Log into your account</div>
 					</div>
 					<div class="mb-3">
 						<label for="userEmail" class="form-label">Email address</label>
-						<input type="email" class="form-control" id="userEmail" aria-describedby="emailHelp">
+						<input type="email" class="form-control" id="userEmail" name="userEmail" aria-describedby="emailHelp">
+						<span class="error">
+						<?php echo $userEmail_error; ?>
+						</span>
 					</div>
 					<div class="mb-3">
 						<label for="userPassword" class="form-label">Password</label>
-						<input type="password" class="form-control" id="userPassword">
+						<input type="password" class="form-control" id="userPassword" name="userPassword">
+						<span class="error">
+						<?php echo $userPassword_error; ?>
+						</span>
 					</div>
 					<div class="col text-center">
 						<button type="submit" class="btn btn-primary justify-content-center">Submit</button>
 					</div>
+					<span class="error">
+					<?php echo $login_error; ?>
+					</span>
 				</form>
 			</div>
 		</div>

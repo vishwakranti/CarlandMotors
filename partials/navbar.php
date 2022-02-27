@@ -8,9 +8,26 @@ if(!isset($_SESSION))
 $logged_in = false;
 $role = "normal";
 
-if(isset($_SESSION["logged_in"]))
+if(isset($_SESSION["userEmail"]) && !empty($_SESSION['userEmail']))
 {
-	$logged_in = $_SESSION["logged_in"];
+	$logged_in = true;	
+}
+
+$car_manufacturers ="";
+
+if($_SERVER["REQUEST_METHOD"] == "GET")
+{
+
+	//prepare sql statement
+	$sql = "SELECT DISTINCT car.manufacturer FROM car order by manufacturer asc";
+	$stmt = $mysqli->prepare($sql);
+
+	if($stmt->execute())
+	{
+		// store result
+        $car_manufacturers = $stmt->get_result();
+	}
+
 }
 
 ?>
@@ -31,34 +48,33 @@ if(isset($_SESSION["logged_in"]))
 					<a class="nav-link" aria-current="page" href="./aboutUs.php">About Us</a>
 
 				</li>
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Account</a>
-					<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-						<li><a class="dropdown-item" href="login.php">Login</a></li>
-						<li><a class="dropdown-item" href="register.php">Register</a></li>
-					</ul>
-				</li>
+				<?php
+				if(empty($logged_in))
+				{
+					echo '<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Account</a>
+							<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+								<li><a class="dropdown-item" href="login.php">Login</a></li>
+								<li><a class="dropdown-item" href="register.php">Register</a></li>
+							</ul>
+						  </li>';
+				}
+				?>
 
-
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Vehicles</a>
-					<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-						<li><a class="dropdown-item" href="#">Mitsubishi</a></li>
-						<li><a class="dropdown-item" href="#">Subaru</a></li>
-						<li><a class="dropdown-item" href="#">Honda</a></li>
-						<li><a class="dropdown-item" href="#">Mazda</a></li>
-						<li><a class="dropdown-item" href="#">Suzuki</a></li>
-						<li><a class="dropdown-item" href="#">Toyota</a></li>
-						<li><a class="dropdown-item" href="#">Armstrong</a></li>
-						<li><a class="dropdown-item" href="#">Jeep</a></li>
-						<li><a class="dropdown-item" href="#">Lexus</a></li>
-						<li><a class="dropdown-item" href="#">Holden</a></li>
-						<li><a class="dropdown-item" href="#">Kia</a></li>
-						<li><a class="dropdown-item" href="#">Ford</a></li>
-						<li><a class="dropdown-item" href="#">Nissan</a></li>
-					</ul>
-				</li>
-
+				<?php 
+				if(!empty($car_manufacturers)){
+					echo '<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Vehicles</a>
+							<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">';
+					
+					foreach($car_manufacturers as $manufacturer)
+					{
+						echo "<li><a class=\"dropdown-item\" href=\"search.php?car=" .$manufacturer['manufacturer'] . "\">". $manufacturer['manufacturer'] . "</a></li>";
+					}
+					echo '	</ul>
+						  </li>';
+				}
+				?>
 				<?php
 				if(!empty($logged_in))
 				{
@@ -72,10 +88,17 @@ if(isset($_SESSION["logged_in"]))
 				</li>
 				<li class="nav-item">
 					<form class="d-flex">
-						<input class="form-control me-2" type="search" placeholder="Search Cars" aria-label="Search">
-						<button class="btn btn-outline-success" type="submit">Search</button>
+						<input class="form-control me-2" type="search" placeholder="Search Cars" aria-label="Search" id="searchCarsTxtBx">
+						<button class="btn btn-outline-success" type="submit" id="searchCars">Search</button>
 					</form>
 				</li>
+
+				<?php
+				if(!empty($logged_in))
+				{
+					echo '<li class="nav-item"> <a class="nav-link" href="logout.php">Logout</a></li>';
+				}
+				?>
 			</ul>
 		</div>
 	</div>
