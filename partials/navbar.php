@@ -31,7 +31,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET")
 }
 
 ?>
-<nav class="navbar navbar-expand-md navbar-light bg-dark justify-content-center">
+<nav class="navbar navbar-expand-md navbar-light bg-light justify-content-center">
 	<div class="d-flex">
 		<a class="navbar-brand" href="."><img src="./images/cars_logo.png" alt="" width="200" height="100" alt="Carland Motors"></a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse"
@@ -84,7 +84,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET")
 
 
 				<li class="nav-item">
-					<a class="nav-link" aria-current="page" href="./">Contact</a>
+					<a class="nav-link" aria-current="page" href="./contact.php">Contact</a>
 				</li>
 				<li class="nav-item">
 					<form class="d-flex">

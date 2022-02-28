@@ -13,8 +13,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	//validation
 	if(empty(trim($_POST["userEmail"]))){
         $userEmail_err = "Please enter a user email.";
-    // } elseif(!preg_match('/^[a-zA-Z0-9_]+$/', trim($_POST["userEmail"]))){
-    //     $userEmail_err = "User Email can only contain letters, numbers, and underscores.";
     } else{
         // get users from database
         $sql = "SELECT id FROM users WHERE email = ?";

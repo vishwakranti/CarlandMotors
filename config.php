@@ -7,14 +7,7 @@ if(!isset($_SESSION))
         session_start(); 
     } 
 
-// $server = "localhost"; // here the database server is localhost. Variables created for easy changing
-// $user = "root";
-// $password = "";
-// $database = "carland_motors";
-// $link = mysqli_connect($server, $user, $password, $database);
-
-/* Database credentials. Assuming you are running MySQL
-server with default setting (user 'root' with no password) */
+/* Database credentials.  */
 define('DB_SERVER', 'localhost');
 define('DB_USERNAME', 'root');
 define('DB_PASSWORD', '');
