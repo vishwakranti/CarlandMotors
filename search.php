@@ -4,7 +4,7 @@
 require_once "config.php";
 $cars ="";
 
-if($_SERVER["REQUEST_METHOD"] == "GET")
+if($_SERVER["REQUEST_METHOD"] == "POST")
 {
 
 	//prepare sql statement
@@ -17,6 +17,34 @@ if($_SERVER["REQUEST_METHOD"] == "GET")
         $cars = $stmt->get_result();
 	}
 
+}
+
+if($_SERVER["REQUEST_METHOD"] == "GET")
+{
+    $car_array="";
+    parse_str($_SERVER["QUERY_STRING"],$car_array);
+    //prepare sql statement
+	$sql = "SELECT car.price,car.year, car.manufacturer, car.model, car.colour, car_images.file_name FROM `car_images` inner join car on car.car_id = car_images.car_id";
+
+    if(!empty($car_array))
+    {
+        if(isset($car_array['car']))
+         $sql = $sql . " where car.manufacturer like '%" . htmlentities($car_array['car']). "%'";
+
+        if(isset($car_array['searchString']))
+        {
+            $searchString = htmlentities($car_array['searchString']);
+            $sql = $sql . " where car.manufacturer like '%" . $searchString . "%' or car.year like '%" . $searchString . "%' or car.model like '%" . $searchString . "%' or car.colour like '%" . $searchString . "%' or car.price like '%" . $searchString . "%'";
+        }
+         
+    }
+	$stmt = $mysqli->prepare($sql);
+
+	if($stmt->execute())
+	{
+		// store result
+        $cars = $stmt->get_result();
+	}
 }
 
 ?>
@@ -33,10 +61,10 @@ if($_SERVER["REQUEST_METHOD"] == "GET")
 	<!-- Bootstrap core CSS -->
 	<link href="https://getbootstrap.com/docs/5.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 	 crossorigin="anonymous">
-	<link rel="icon" href="favicon.ico">
-	<meta name="theme-color" content="#7952b3">
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
 	 crossorigin="anonymous"></script>
+	<link rel="icon" href="favicon.ico">
+	<meta name="theme-color" content="#7952b3">
 
 	<style>
 		@media (min-width: 768px) {
