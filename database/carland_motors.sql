@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 15, 2022 at 07:14 AM
--- Server version: 10.4.21-MariaDB
--- PHP Version: 8.0.10
+-- Generation Time: Mar 02, 2022 at 06:18 AM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 8.1.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,8 +18,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `cardealership`
+-- Database: `carland_motors`
 --
+CREATE DATABASE IF NOT EXISTS `carland_motors` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `carland_motors`;
 
 -- --------------------------------------------------------
 
@@ -38,27 +40,59 @@ CREATE TABLE `car` (
   `mileage` int(11) NOT NULL,
   `transmission_type` varchar(15) NOT NULL,
   `car_condition` varchar(4) NOT NULL,
-  `category_id` int(4) NOT NULL
+  `category_id` int(4) NOT NULL,
+  `price` decimal(10,0) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `car`
 --
 
-INSERT INTO `car` (`car_id`, `manufacturer`, `model`, `colour`, `year`, `fuel_type`, `registration`, `mileage`, `transmission_type`, `car_condition`, `category_id`) VALUES
-(1, 'Mitsubishi', 'RVR', 'RED', 2005, 'Petrol', 'ABC111', 105000, 'Automatic', 'Used', 2),
-(2, 'Subaru', 'Forester', 'Black', 2011, 'Petrol', 'ABC2', 95000, 'Automatic', 'Used', 1),
-(3, 'Honda', 'CRV', 'Yellow', 2019, 'Hybrid', 'ABC3', 30000, 'Automatic', 'Used', 1),
-(4, 'Mazda', 'GLX', 'Purple', 2020, 'Diesel', 'ABC5', 60000, 'Automatic', 'Used', 2),
-(5, 'Suzuki', 'Samurai', 'Green', 2014, 'Electric', 'ABC6', 59000, 'Automatic', 'Used', 3),
-(6, 'Toyota', 'Rav-4', 'Silver', 2007, 'Petrol', 'ABC12', 55000, 'Automatic', 'Used', 2),
-(7, 'Armastrong', 'Mini Cooper', 'Metal Black', 2021, 'Petrol', 'ASE32', 0, 'Automatic', 'New', 1),
-(8, 'Jeep', 'ASX-1', 'White', 2020, 'Diesel', 'ABC12', 20000, 'Automatic', 'Used', 3),
-(9, 'Lexus', 'F-Sport', 'Blue', 2021, 'Hybrid', 'ABC38', 0, 'Automatic', 'New', 3),
-(10, 'Holden', 'SZ1', 'Pearl White', 2009, 'Diesel', 'XYZ123', 76000, 'Manual', 'Used', 2),
-(11, 'Kia', 'Sorento', 'Dark Green', 2021, 'Petrol', 'ABC87', 0, 'Automatic', 'New', 1),
-(12, 'Ford', 'Fiesta', 'Black', 2011, 'Petrol', 'ABC123', 55000, 'Manual', 'Used', 2),
-(13, 'Nissan', 'Maxima', 'Metal Black', 2021, 'Electric', 'ABC32', 0, 'Automatic', 'New', 1);
+INSERT INTO `car` (`car_id`, `manufacturer`, `model`, `colour`, `year`, `fuel_type`, `registration`, `mileage`, `transmission_type`, `car_condition`, `category_id`, `price`) VALUES
+(1, 'Mitsubishi', 'RVR', 'RED', 2005, 'Petrol', 'ABC111', 105000, 'Automatic', 'Used', 2, '12000'),
+(2, 'Subaru', 'Forester', 'Black', 2011, 'Petrol', 'ABC2', 95000, 'Automatic', 'Used', 1, '16500'),
+(3, 'Honda', 'CRV', 'Yellow', 2019, 'Hybrid', 'ABC3', 30000, 'Automatic', 'Used', 1, '23600'),
+(4, 'Mazda', 'GLX', 'Purple', 2020, 'Diesel', 'ABC5', 60000, 'Automatic', 'Used', 2, '32000'),
+(5, 'Suzuki', 'Samurai', 'Green', 2014, 'Electric', 'ABC6', 59000, 'Automatic', 'Used', 3, '18400'),
+(6, 'Toyota', 'Rav-4', 'Silver', 2007, 'Petrol', 'ABC12', 55000, 'Automatic', 'Used', 2, '9600'),
+(7, 'Armastrong', 'Mini Cooper', 'Metal Black', 2021, 'Petrol', 'ASE32', 0, 'Automatic', 'New', 1, '29500'),
+(8, 'Jeep', 'ASX-1', 'White', 2020, 'Diesel', 'ABC12', 20000, 'Automatic', 'Used', 3, '17500'),
+(9, 'Lexus', 'F-Sport', 'Blue', 2021, 'Hybrid', 'ABC38', 0, 'Automatic', 'New', 3, '44500'),
+(10, 'Holden', 'SZ1', 'Pearl White', 2009, 'Diesel', 'XYZ123', 76000, 'Manual', 'Used', 2, '16200'),
+(11, 'Kia', 'Sorento', 'Dark Green', 2021, 'Petrol', 'ABC87', 0, 'Automatic', 'New', 1, '26250'),
+(12, 'Ford', 'Fiesta', 'Black', 2011, 'Petrol', 'ABC123', 55000, 'Manual', 'Used', 2, '7500'),
+(13, 'Nissan', 'Maxima', 'Metal Black', 2021, 'Electric', 'ABC32', 0, 'Automatic', 'New', 1, '24250');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `car_images`
+--
+
+CREATE TABLE `car_images` (
+  `id` int(11) NOT NULL,
+  `car_id` int(7) NOT NULL,
+  `file_name` varchar(75) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `car_images`
+--
+
+INSERT INTO `car_images` (`id`, `car_id`, `file_name`) VALUES
+(1, 1, 'stock_car1.jpg'),
+(2, 2, 'stock_car2.jpg'),
+(3, 3, 'stock_car3.jpg'),
+(4, 4, 'stock_car4.jpg'),
+(5, 5, 'stock_car5.jpg'),
+(6, 6, 'stock_car1.jpg'),
+(7, 7, 'stock_car2.jpg'),
+(8, 8, 'stock_car3.jpg'),
+(9, 9, 'stock_car4.jpg'),
+(10, 10, 'stock_car5.jpg'),
+(11, 11, 'stock_car1.jpg'),
+(12, 12, 'stock_car2.jpg'),
+(13, 13, 'stock_car3.jpg');
 
 -- --------------------------------------------------------
 
@@ -275,6 +309,26 @@ INSERT INTO `sales_person_of_the_year` (`salespersonoftheyear_id`, `employee_id`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `role` varchar(12) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `email`, `password`, `role`) VALUES
+(1, 'ajit.musalgavkar@gmail.com', '$2y$10$kN/ATGX25rVVGmMUTF.zi.btpaxEKWgFOK5P5zOlEc8C1i72H9baK', '');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `warranties`
 --
 
@@ -293,6 +347,18 @@ INSERT INTO `warranties` (`warranty_id`, `years`, `cost`) VALUES
 (2, 2, '1200'),
 (3, 3, '1500');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `wishlist`
+--
+
+CREATE TABLE `wishlist` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `car_id` int(7) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 --
 -- Indexes for dumped tables
 --
@@ -303,6 +369,13 @@ INSERT INTO `warranties` (`warranty_id`, `years`, `cost`) VALUES
 ALTER TABLE `car`
   ADD PRIMARY KEY (`car_id`),
   ADD KEY `category_fk` (`category_id`);
+
+--
+-- Indexes for table `car_images`
+--
+ALTER TABLE `car_images`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `car_fk3` (`car_id`);
 
 --
 -- Indexes for table `category`
@@ -366,10 +439,22 @@ ALTER TABLE `sales_person_of_the_year`
   ADD PRIMARY KEY (`salespersonoftheyear_id`);
 
 --
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `warranties`
 --
 ALTER TABLE `warranties`
   ADD PRIMARY KEY (`warranty_id`);
+
+--
+-- Indexes for table `wishlist`
+--
+ALTER TABLE `wishlist`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -380,6 +465,12 @@ ALTER TABLE `warranties`
 --
 ALTER TABLE `car`
   MODIFY `car_id` int(7) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `car_images`
+--
+ALTER TABLE `car_images`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -430,10 +521,22 @@ ALTER TABLE `sales_person_of_the_year`
   MODIFY `salespersonoftheyear_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `warranties`
 --
 ALTER TABLE `warranties`
   MODIFY `warranty_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `wishlist`
+--
+ALTER TABLE `wishlist`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -444,6 +547,12 @@ ALTER TABLE `warranties`
 --
 ALTER TABLE `car`
   ADD CONSTRAINT `category_fk` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`);
+
+--
+-- Constraints for table `car_images`
+--
+ALTER TABLE `car_images`
+  ADD CONSTRAINT `car_fk3` FOREIGN KEY (`car_id`) REFERENCES `car` (`car_id`);
 
 --
 -- Constraints for table `commission`
