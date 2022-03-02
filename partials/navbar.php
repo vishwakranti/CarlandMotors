@@ -59,9 +59,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET")
 							</ul>
 						  </li>';
 				}
-				?>
-
-				<?php 
+ 
 				if(!empty($car_manufacturers)){
 					echo '<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Vehicles</a>
@@ -74,8 +72,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET")
 					echo '	</ul>
 						  </li>';
 				}
-				?>
-				<?php
+
 				if(!empty($logged_in))
 				{
 					echo '<li class="nav-item"> <a class="nav-link" href="wishList.php">Wish list</a></li>';
