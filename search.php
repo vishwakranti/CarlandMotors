@@ -99,9 +99,9 @@ if($_SERVER["REQUEST_METHOD"] == "GET")
 	<main>
 		<div class="container mt-0">
 			<?php //php block of code to show the cars in the database
-			if(empty($cars))
+			if($cars->num_rows == 0)
 			{
-				echo '<div class="row"> No cars found!</div>';
+				echo "<div class=\"row justify-content-center\"> <div class=\"col-4\"> <h1 class=\"display-4\">No cars found!</h1></div></div>";
 			}
 
 			else if ($cars->num_rows > 0){
