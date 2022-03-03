@@ -50,7 +50,7 @@ require_once "config.php";
 
 		<div class="container mt-3">
 			<h2></h2>
-			<div class="mt-4 p-5 bg-primary text-white rounded">
+			<div>
 				<h1>About CarlandMotors - Hamilton</h1>
 				<p>CarlandMotors - Hamilton is New Zealand's southernmost dealership.</p>
 				<p>CarlandMotors - Hamilton was opened in December 2015,CarlandMotors has gone from just starting out in vehicle sales to
