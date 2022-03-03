@@ -1,21 +1,18 @@
 <?php
+require_once './utilities/helperFunctions.php';
+
 // Initialize the session
 if(!isset($_SESSION)) 
     { 
         session_start(); 
     } 
 
-$logged_in = false;
+$logged_in = isLoggedIn();
 $role = "normal";
-
-if(isset($_SESSION["userEmail"]) && !empty($_SESSION['userEmail']))
-{
-	$logged_in = true;	
-}
 
 $car_manufacturers ="";
 
-if($_SERVER["REQUEST_METHOD"] == "GET")
+if(isRequestMethodGet())
 {
 
 	//prepare sql statement

@@ -1,5 +1,6 @@
 <?php
-
+//load helper functions
+require_once './utilities/helperFunctions.php';
 //load database connections
 require_once "config.php";
 
@@ -8,7 +9,7 @@ $userEmail = $userPassword = $userConfirmPassword = "";
 $userEmail_err = $userPassword_err = $userConfirmPassword_err = "";
 
 //processing - check if the form has been posted
-if($_SERVER["REQUEST_METHOD"] == "POST"){
+if(isRequestMethodPost()){
 
 	//validation
 	if(empty(trim($_POST["userEmail"]))){

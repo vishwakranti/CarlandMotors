@@ -8,7 +8,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET")
 {
 
 	//prepare sql statement
-	$sql = "SELECT car.price,car.year, car.manufacturer, car.model, car.colour, car_images.file_name FROM `car_images` inner join car on car.car_id = car_images.car_id";
+	$sql = "SELECT car.price,car.year, car.manufacturer, car.model, car.colour, car_images.file_name, car_images.id FROM `car_images` inner join car on car.car_id = car_images.car_id";
 	$stmt = $mysqli->prepare($sql);
 
 	if($stmt->execute())
@@ -73,7 +73,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET")
 			<?php //php block of code to show the cars in the database
 			if(empty($cars))
 			{
-				echo '<div class="row"> No cars found!</div>';
+				echo "<div class=\"row justify-content-center\"> <div class=\"col-4\"> <h1 class=\"display-4\">No cars found!</h1></div></div>";
 			}
 
 			else if ($cars->num_rows > 0){
@@ -133,7 +133,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET")
 	</main>
 	<script src="https://getbootstrap.com/docs/5.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
 	 crossorigin="anonymous"></script>
-	<script type="text/javascript" src="./js/search.js"></script>
+	<script type="text/javascript" src="./js/carland.js"></script>
 </body>
 
 </html>
