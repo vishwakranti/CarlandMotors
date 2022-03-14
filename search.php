@@ -1,10 +1,12 @@
 <?php
+//load helper functions
+require_once './utilities/helperFunctions.php';
 
 //load database connections
 require_once "config.php";
 $cars ="";
 
-if($_SERVER["REQUEST_METHOD"] == "POST")
+if(isRequestMethodPost())
 {
 
 	//prepare sql statement
@@ -19,7 +21,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 
 }
 
-if($_SERVER["REQUEST_METHOD"] == "GET")
+if(isRequestMethodGet())
 {
     $car_array="";
     parse_str($_SERVER["QUERY_STRING"],$car_array);
@@ -99,9 +101,9 @@ if($_SERVER["REQUEST_METHOD"] == "GET")
 	<main>
 		<div class="container mt-0">
 			<?php //php block of code to show the cars in the database
-			if(empty($cars))
+			if($cars->num_rows == 0)
 			{
-				echo '<div class="row"> No cars found!</div>';
+				echo "<div class=\"row justify-content-center\"> <div class=\"col-4\"> <h1 class=\"display-4\">No cars found!</h1></div></div>";
 			}
 
 			else if ($cars->num_rows > 0){
@@ -161,7 +163,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET")
 	</main>
 	<script src="https://getbootstrap.com/docs/5.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
 	 crossorigin="anonymous"></script>
-	<script type="text/javascript" src="./js/search.js"></script>
+	<script type="text/javascript" src="./js/carland.js"></script>
 </body>
 
 </html>

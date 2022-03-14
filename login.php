@@ -1,6 +1,7 @@
 <?php
+require_once './utilities/helperFunctions.php';
 
-if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
+if(isLoggedIn()){
     header("location: index.php");
     exit;
 }
@@ -11,7 +12,7 @@ require_once "config.php";
 //declare error variables
 	$userEmail_error = $userPassword_error = $login_error =  "";
 
-if($_SERVER["REQUEST_METHOD"] == "POST"){
+if(isRequestMethodPost()){
 
 	//declare variables
 	$userEmail = $userPassword = "";
@@ -50,10 +51,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 						if(password_verify($userPassword, $userPassword_hash)){
 
 							//set session variables
+							$_SESSION["logged_in"] = true;
 							$_SESSION["id"] = $id;
 							$_SESSION["userEmail"] = $userEmail;
 
 							header("location: index.php");
+							exit;
 						}
 						else{
 							$login_error = "Wrong user name or password!";

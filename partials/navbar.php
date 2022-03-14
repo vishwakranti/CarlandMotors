@@ -1,21 +1,18 @@
 <?php
+require_once './utilities/helperFunctions.php';
+
 // Initialize the session
 if(!isset($_SESSION)) 
     { 
         session_start(); 
     } 
 
-$logged_in = false;
+$logged_in = isLoggedIn();
 $role = "normal";
-
-if(isset($_SESSION["userEmail"]) && !empty($_SESSION['userEmail']))
-{
-	$logged_in = true;	
-}
 
 $car_manufacturers ="";
 
-if($_SERVER["REQUEST_METHOD"] == "GET")
+if(isRequestMethodGet())
 {
 
 	//prepare sql statement
@@ -59,9 +56,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET")
 							</ul>
 						  </li>';
 				}
-				?>
-
-				<?php 
+ 
 				if(!empty($car_manufacturers)){
 					echo '<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Vehicles</a>
@@ -74,8 +69,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET")
 					echo '	</ul>
 						  </li>';
 				}
-				?>
-				<?php
+
 				if(!empty($logged_in))
 				{
 					echo '<li class="nav-item"> <a class="nav-link" href="wishList.php">Wish list</a></li>';
