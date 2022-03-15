@@ -51,9 +51,7 @@ if(isRequestMethodPost()){
 						if(password_verify($userPassword, $userPassword_hash)){
 
 							//set session variables
-							$_SESSION["logged_in"] = true;
-							$_SESSION["id"] = $id;
-							$_SESSION["userEmail"] = $userEmail;
+							setupUserSession($id,$userEmail);
 
 							header("location: index.php");
 							exit;

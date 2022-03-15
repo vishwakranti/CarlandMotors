@@ -45,6 +45,10 @@ if(isRequestMethodGet())
 					<a class="nav-link" aria-current="page" href="./aboutUs.php">About Us</a>
 
 				</li>
+				<li class="nav-item">
+					<a class="nav-link" aria-current="page" href="./carDetails.php">Car Details</a>
+
+				</li>
 				<?php
 				if(empty($logged_in))
 				{

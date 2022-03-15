@@ -13,9 +13,9 @@ $(document).ready(function () {
 	});
 
 	//add remove to/from wishlist
-	$('.wishListDiv a').on('click', function(event){
-		event.preventDefault();
-		//alert("Hello!");
+	// $('.wishListDiv a').on('click', function(event){
+	// 	event.preventDefault();
+	// 	//alert("Hello!");
 		
-	});
+	// });
 });

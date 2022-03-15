@@ -1,20 +1,41 @@
 <?php
+//load helper functions
+require_once './utilities/helperFunctions.php';
 
 //load database connections
 require_once "config.php";
 $cars ="";
+$cars_array[] = new stdClass;
 
-if($_SERVER["REQUEST_METHOD"] == "GET")
+if(isRequestMethodGet())
 {
-
 	//prepare sql statement
-	$sql = "SELECT car.price,car.year, car.manufacturer, car.model, car.colour, car_images.file_name, car_images.id FROM `car_images` inner join car on car.car_id = car_images.car_id";
+	$sql = "";
+	if(isLoggedIn())
+	{
+		$sql = "SELECT car.car_id, car.price,car.year, car.manufacturer, 
+				   car.model, car.colour, car_images.file_name, 
+				   car_images.id AS image_id, wishlist.id AS wishlist_id, 
+				   wishlist.user_id 
+				FROM `car_images` 
+				INNER JOIN car ON car.car_id = car_images.car_id
+				LEFT OUTER JOIN (select wishlist.id, wishlist.car_id, wishlist.user_id from wishlist where wishlist.user_id = " . getUserId() .") as wishlist ON wishlist.car_id = car.car_id
+				ORDER BY car.car_id";
+	}
+	else
+	{
+		$sql = "SELECT car.car_id, car.price,car.year, car.manufacturer, 
+						car.model, car.colour, car_images.file_name, 
+						car_images.id AS image_id
+				FROM `car_images` 
+				INNER JOIN car ON car.car_id = car_images.car_id ";
+	}
+	
 	$stmt = $mysqli->prepare($sql);
 
-	if($stmt->execute())
+	if($stmt->execute()) //execute prepared sql
 	{
-		// store result
-        $cars = $stmt->get_result();
+        $cars = $stmt->get_result(); // store result
 	}
 
 }
@@ -70,32 +91,53 @@ if($_SERVER["REQUEST_METHOD"] == "GET")
 	</header>
 	<main>
 		<div class="container mt-0">
+
 			<?php //php block of code to show the cars in the database
+
 			if(empty($cars))
 			{
 				echo "<div class=\"row justify-content-center\"> <div class=\"col-4\"> <h1 class=\"display-4\">No cars found!</h1></div></div>";
 			}
 
-			else if ($cars->num_rows > 0){
-				//initialize the counter
-				$i=0;
-
-				//iterate through the dataset we got from the database
-				foreach($cars as $car )
+			else if ($cars->num_rows > 0)
+			{
+				$i=0; //initialize the counter
+				
+				foreach($cars as $car ) //iterate through the dataset we got from the database
 				{
-					//open a row 
-					if($i == 0) 
+					if($i == 0) //open a row 
 						echo '<div class="row">';
 
 					//add car details
 					echo "<div class=\"col-sm-4\">
 							<div class=\"card\">
-								<div class=\"wishListDiv\">
-									<a href=\"#\" class=\"wishListAnchor\">
-										<img src=\"./images/addedToWishlist.png\" class=\"float-end\" alt=\"add to wishlist\" width=\"25px\" height=\"25px\">
+								<div class=\"wishListDiv\">";
+					if(isLoggedIn()){
+
+						if(is_null($car['wishlist_id']))
+						{
+							echo "<a href=\"addWishlist.php?car_id=" . $car['car_id'] . "&action=" . "add". "\" class=\"wishListAnchor\">
+										<img src=\"./images/notInWishlist.png\" class=\"float-end\" alt=\"add to wishlist\" width=\"25px\" height=\"25px\" data-image-id=\"" .$car['car_id']. "\">
 										<span class=\"float-end\">Add To Wishlist</span>
-									</a>
-								</div>
+									</a>";
+						}
+						else
+						{
+							echo "<a href=\"addWishlist.php?car_id=" . $car['car_id'] . "&action=" . "remove". "\" class=\"wishListAnchor\">
+										<img src=\"./images/addedToWishlist.png\" class=\"float-end\" alt=\"remove from wishlist\" width=\"25px\" height=\"25px\" data-image-id=\"" .$car['car_id']. "\">
+										<span class=\"float-end\">Remove From Wishlist</span>
+									</a>";
+
+						}
+					}
+					else{
+						echo "<a href=\"login.php\" class=\"wishListAnchor\">
+										<img src=\"./images/notInWishlist.png\" class=\"float-end\" alt=\"add to wishlist\" width=\"25px\" height=\"25px\" data-image-id=\"" .$car['car_id']. "\">
+										<span class=\"float-end\">Add To Wishlist</span>
+									</a>";
+					}
+									
+					echo	  "</div>
 					   	 		<img src=\"./images/" . $car['file_name'] . "\" class=\"card-img-top\" alt=\"...\" width=\"125\" height=\"250\">
 					 	 		<div class=\"card-body\">
 						 			<h5 class=\"card-title\">" . $car['year'] . " " . $car['manufacturer'] . " " . $car['model'] . " " .  $car['colour'] . "</h5>
@@ -108,11 +150,11 @@ if($_SERVER["REQUEST_METHOD"] == "GET")
 					if($i == 2)
 						echo '</div>';
 
-					//increment the counter
-					$i++;
+					
+					$i++; //increment the counter
 
-					//reset the counter
-					if($i > 2)
+					
+					if($i > 2) //reset the counter
 						$i=0;
 
 				}

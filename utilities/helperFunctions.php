@@ -8,6 +8,14 @@ function isLoggedIn()
     return false;
 }
 
+function getUserId()
+{
+    if(isset($_SESSION) && isset($_SESSION['user_id']))
+        return  $_SESSION['user_id']; 
+
+    return NULL;
+}
+
 function isRequestMethodGet()
 {
     if($_SERVER["REQUEST_METHOD"] == "GET")
@@ -20,4 +28,12 @@ function isRequestMethodPost()
     if($_SERVER["REQUEST_METHOD"] == "POST")
         return true;
     return false;
+}
+
+function setupUserSession(string $id, string $userEmail)
+{
+    $_SESSION["logged_in"] = true;
+	$_SESSION["user_id"] = $id;
+	$_SESSION["user_email"] = $userEmail;
+
 }
