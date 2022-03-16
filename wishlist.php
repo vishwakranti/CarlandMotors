@@ -86,7 +86,7 @@ else
 
 			<?php //php block of code to show the cars in the database
 
-			if(empty($cars))
+			if(empty($cars) || $cars->num_rows == 0)
 			{
 				echo "<div class=\"row justify-content-center\"> <div class=\"col-4\"> <h1 class=\"display-4\">No cars found!</h1></div></div>";
 			}
