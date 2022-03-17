@@ -2,9 +2,17 @@
 
 function isLoggedIn()
 {
-    if(isset($_SESSION) && isset($_SESSION['logged_in'])){
+    if(isset($_SESSION) && isset($_SESSION['logged_in']))
         return $_SESSION['logged_in'];
-    }
+
+    return false;
+}
+
+function isAdmin()
+{
+    if(isLoggedIn() && isset($_SESSION['is_admin']) && $_SESSION['is_admin'])
+        return $_SESSION['is_admin'];
+
     return false;
 }
 
@@ -30,10 +38,11 @@ function isRequestMethodPost()
     return false;
 }
 
-function setupUserSession(string $id, string $userEmail)
+function setupUserSession(string $id, string $userEmail, $isAdmin = false)
 {
     $_SESSION["logged_in"] = true;
 	$_SESSION["user_id"] = $id;
 	$_SESSION["user_email"] = $userEmail;
+    $_SESSION["is_admin"] = $isAdmin;
 
 }

@@ -5,7 +5,6 @@ require_once './utilities/helperFunctions.php';
 //load database connections
 require_once "config.php";
 $cars ="";
-$cars_array[] = new stdClass;
 
 ?>
 <!doctype html>

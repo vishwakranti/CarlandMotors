@@ -5,7 +5,6 @@ require_once './utilities/helperFunctions.php';
 //load database connections
 require_once "config.php";
 $cars ="";
-$cars_array[] = new stdClass;
 
 if(isRequestMethodGet())
 {
@@ -98,7 +97,6 @@ if(isRequestMethodGet())
 			{
 				echo "<div class=\"row justify-content-center\"> <div class=\"col-4\"> <h1 class=\"display-4\">No cars found!</h1></div></div>";
 			}
-
 			else if ($cars->num_rows > 0)
 			{
 				$i=0; //initialize the counter

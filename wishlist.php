@@ -31,8 +31,8 @@ else
 	header("location: login.php");
     exit;
 }
-
 ?>
+
 <!doctype html>
 
 <html lang="en">
@@ -120,14 +120,11 @@ else
 
 					if($i == 2)
 						echo '</div>';
-
-					
+	
 					$i++; //increment the counter
-
 					
 					if($i > 2) //reset the counter
 						$i=0;
-
 				}
 
 				//close the row if it hasn't been closed

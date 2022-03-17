@@ -34,7 +34,7 @@ if(isRequestMethodPost()){
 	//validate userEmail and userPassword
 	if(empty($userEmail_error) && empty($userPassword_error ))
 	{
-		$sql = "SELECT id, email, password FROM users WHERE email = ?";
+		$sql = "SELECT id, email, password FROM users WHERE email = ? and enabled = 1";
 		if($stmt = $mysqli-> prepare($sql))
 		{
 			$stmt -> bind_param("s",$param_userEmail);
@@ -50,8 +50,12 @@ if(isRequestMethodPost()){
 					{
 						if(password_verify($userPassword, $userPassword_hash)){
 
+							$isAdmin = false;
+							if($userEmail == 'ajit.musalgavkar@gmail.com')
+								$isAdmin = true;
+
 							//set session variables
-							setupUserSession($id,$userEmail);
+							setupUserSession($id, $userEmail, $isAdmin);
 
 							header("location: index.php");
 							exit;

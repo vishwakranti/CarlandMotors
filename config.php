@@ -3,15 +3,16 @@
 date_default_timezone_set('Pacific/Auckland');
 // start session
 if(!isset($_SESSION)) 
-    { 
-        session_start(); 
-    } 
+{ 
+    session_start(); 
+} 
 
 /* Database credentials.  */
 define('DB_SERVER', 'localhost');
 define('DB_USERNAME', 'root');
 define('DB_PASSWORD', '');
 define('DB_NAME', 'carland_motors');
+define('ROOT_DIR', __DIR__);
  
 /* Attempt to connect to MySQL database */
 $mysqli = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
