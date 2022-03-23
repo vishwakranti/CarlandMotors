@@ -4,8 +4,49 @@ require_once './utilities/helperFunctions.php';
 
 //load database connections
 require_once "config.php";
-$cars ="";
+$car ="";
 
+
+if(isRequestMethodGet() && isset($_GET['car_id'])){
+
+    $car_id = $_GET['car_id'];
+
+    if(isLoggedIn())
+	{
+		$sql = "SELECT car.car_id, car.price,car.year, car.manufacturer, 
+				   car.model, car.colour, car.mileage, car.fuel_type,car.transmission_type,
+                   car_images.file_name, 
+				   car_images.id AS image_id, wishlist.id AS wishlist_id, 
+				   wishlist.user_id 
+				FROM `car_images` 
+				INNER JOIN car ON car.car_id = car_images.car_id
+				LEFT OUTER JOIN (select wishlist.id, wishlist.car_id, wishlist.user_id from wishlist where wishlist.user_id = " . getUserId() .") as wishlist ON wishlist.car_id = car.car_id
+                WHERE car.car_id = $car_id
+				ORDER BY car.car_id";
+	}
+	else
+	{
+		$sql = "SELECT car.car_id, car.price,car.year, car.manufacturer, 
+						car.model, car.colour, car.mileage, car.fuel_type,car.transmission_type,
+                        car_images.file_name, 
+						car_images.id AS image_id
+				FROM `car_images` 
+				INNER JOIN car ON car.car_id = car_images.car_id 
+                WHERE car.car_id = $car_id";
+	}
+
+    $stmt = $mysqli->prepare($sql);
+
+	if($stmt->execute()) //execute prepared sql
+	{
+        $car = $stmt->get_result(); // store result
+        $car = $car->fetch_assoc();
+	}
+}
+else{
+    header("location: index.php");
+    exit;
+}
 ?>
 <!doctype html>
 
@@ -58,11 +99,16 @@ $cars ="";
 	<main>
 		<div class="container mt-0">
 			<div class="row">
-				<div class="col-sm-8 col-md-8 col-lg-8"> fdfdfdf</div>
-				<div class="col-sm-4 col-md-4 col-lg-4">dfdffdfdf </div>
+				<div class="col-sm-8 col-md-8 col-lg-8 display-6">
+					<?php echo $car['year'] . " " . $car['manufacturer'] . " " . $car['model'] . " " . $car['colour']; ?>
+				</div>
+				<div class="col-sm-4 col-md-4 col-lg-4 align-self-end display-6">
+					<?php echo "$" .$car['price']; ?>
+				</div>
 			</div>
-			<div class=" row ">
-				<div class="col-sm-8 ">
+			<div class="row border-top pt-4">
+				<div class="col-sm-8">
+
 					<div id="myCarousel " class="carousel slide " data-bs-ride="carousel ">
 						<!-- Carousel indicators -->
 						<ol class="carousel-indicators ">
@@ -74,13 +120,13 @@ $cars ="";
 						<!-- Wrapper for carousel items -->
 						<div class="carousel-inner ">
 							<div class="carousel-item active ">
-								<img src="./images/stock_car1.jpg " class="d-block w-100 " alt="Slide 1 ">
+								<?php echo "<img src=\"./images/" . $car['file_name'] . "\" class=\"d-block w-100 \" alt=\"Slide 1 \">" ?>
 							</div>
 							<div class="carousel-item ">
 								<img src="./images/stock_car2.jpg " class="d-block w-100 " alt="Slide 2 ">
 							</div>
 							<div class="carousel-item ">
-								<img src="./images/stock_car3.jpg " class="d-block w-100 " alt="Slide 3 ">
+								<img src="./images/stock_car3.jpg " class="d-block w-100" alt="Slide 3 ">
 							</div>
 						</div>
 
@@ -93,15 +139,39 @@ $cars ="";
                         </a>
 					</div>
 				</div>
-				<div class="col-sm-4 ">
-					<div class="row ">
-						<div class="col-sm-6 ">Engine</div>
+				<div class="col-sm-4 border-white">
+					<div class="row border-top ">
+						<div class="col-sm-6 border-end">Engine</div>
 						<div class="col-sm-6 ">4960cc, Hybrid</div>
 					</div>
-					<div class="row ">
-						<div class="col-sm-6 ">Body</div>
+					<div class="row border-top">
+						<div class="col-sm-6 border-end">Body</div>
 						<div class="col-sm-6 ">5 Door, Sedan</div>
 					</div>
+					<div class="row border-top">
+						<div class="col-sm-6 border-end">Odometer</div>
+						<div class="col-sm-6 ">
+							<?php echo $car['mileage']?>km
+						</div>
+					</div>
+					<div class="row border-top">
+						<div class="col-sm-6 border-end">Ext Colour</div>
+						<div class="col-sm-6 ">
+							<?php echo $car['colour']?>
+						</div>
+
+					</div>
+					<div class="row border-top">
+						<div class="col-sm-6 border-end">Interior</div>
+						<div class="col-sm-6 ">Black, 5 Seats (Fabric)</div>
+					</div>
+					<div class="row border-top">
+						<div class="col-sm-6 border-end">Transmission</div>
+						<div class="col-sm-6 ">
+							<?php echo $car['transmission_type']?>
+						</div>
+					</div>
+					<div class="row border-top"></div>
 				</div>
 			</div>
 		</div>

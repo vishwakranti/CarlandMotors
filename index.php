@@ -140,7 +140,7 @@ if(isRequestMethodGet())
 					 	 		<div class=\"card-body\">
 						 			<h5 class=\"card-title\">" . $car['year'] . " " . $car['manufacturer'] . " " . $car['model'] . " " .  $car['colour'] . "</h5>
 						 			<p><strong>$" . $car['price'] . "</strong></p>
-						 			<a href=\"#\" class=\"btn btn-primary\">More Info</a>
+						 			<a href=\"carDetails.php?car_id=" . $car['car_id'] . "\" class=\"btn btn-primary\">More Info</a>
 								</div>
 							</div>
 						 </div>";
