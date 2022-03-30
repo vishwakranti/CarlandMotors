@@ -1,4 +1,6 @@
 <?php
+
+//just a comment
 //load database connections
 require_once "./config.php";
 //load helper functions
@@ -10,8 +12,6 @@ if(!isAdmin()){
 	header("location: index.php");
 	exit;
 }
-
-
 
 if(isset($_GET['user_id']) && isset($_GET['enable']))
 {
@@ -73,19 +73,9 @@ if($stmt->execute()) //execute prepared sql
 			}
 		}
 
-		.wishListDiv span {
-			display: none;
-			position: absolute;
-			bottom: 0;
-			left: 0;
-			right: 0;
-		}
-
-		.wishListDiv:hover span {
-			display: block;
-			position: relative;
-			right: 5px;
-			font-size: 12px;
+		.table {
+			margin: auto;
+			width: 50% !important;
 		}
 	</style>
 </head>
@@ -98,9 +88,14 @@ if($stmt->execute()) //execute prepared sql
 	</header>
 	<main>
 		<div class="container mt-0">
+			<div class="text-center">
+				<p>
+					<h1 class="display-6">Manage Users</h1>
+				</p>
+			</div>
 			<div class="row">
-				<div class="col-sm-6">
-					<table class="table">
+				<div class="table-responsive">
+					<table class="table table-hover ">
 						<thead>
 							<tr>
 								<th scope="col">#</th>
@@ -120,7 +115,7 @@ if($stmt->execute()) //execute prepared sql
 									{
 										$enable = $user['enabled'] == 1 ? "Disable" : "Enable";
 										$queryString = "user_id=". $user['id'] . "&enable=" . (($user['enabled'] == 0) ? "1" : "0"); 
-										echo "<tr><th scope=\"row\">" .$i ."</th><td>" . $user['email'] ."</td><td><button type=\"button\" class=\"btn btn-outline-primary\"><a href=\"manageUsers.php?" . $queryString . "\">" . $enable . "</a></button></td></tr>";
+										echo "<tr><th scope=\"row\">" .$i ."</th><td>" . $user['email'] ."</td><td><a href=\"manageUsers.php?" . $queryString . "\">" . $enable . "</a></td></tr>";
 										$i++;
 									}
 								}

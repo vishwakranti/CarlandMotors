@@ -38,6 +38,30 @@ function isRequestMethodPost()
     return false;
 }
 
+function getPostRequestValue(string $postString)
+{
+    if(isset($_POST[$postString]))
+        return $_POST[$postString];
+
+    return NULL;
+}
+
+function getGetRequestValue(string $getString)
+{
+    if(isset($_GET[$getString]))
+        return $_GET[$getString];
+
+    return NULL;
+}
+
+function getSessionValue(string $sessString)
+{
+    if(isset($_SESSION) && isset($_SESSION[$sessString]))
+        return $_SESSION[$sessString];
+    
+    return NULL;
+}
+
 function setupUserSession(string $id, string $userEmail, $isAdmin = false)
 {
     $_SESSION["logged_in"] = true;

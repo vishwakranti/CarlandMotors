@@ -23,3 +23,6 @@ define('PRODUCT_IMG_DIR', 'c:/xampp/htdocs/carlandmotors_vishwakranti/images/');
 // width is scale on the fly
 //define('THUMBNAIL_WIDTH', 500);
 
+//upload directory
+define('IMAGE_UPLOAD_PATH', 'images/');
+

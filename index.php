@@ -16,8 +16,8 @@ if(isRequestMethodGet())
 				   car.model, car.colour, car_images.file_name, 
 				   car_images.id AS image_id, wishlist.id AS wishlist_id, 
 				   wishlist.user_id 
-				FROM `car_images` 
-				INNER JOIN car ON car.car_id = car_images.car_id
+				FROM `car` 
+				LEFT OUTER JOIN car_images ON car_images.car_id = car.car_id
 				LEFT OUTER JOIN (select wishlist.id, wishlist.car_id, wishlist.user_id from wishlist where wishlist.user_id = " . getUserId() .") as wishlist ON wishlist.car_id = car.car_id
 				ORDER BY car.car_id";
 	}
@@ -26,8 +26,8 @@ if(isRequestMethodGet())
 		$sql = "SELECT car.car_id, car.price,car.year, car.manufacturer, 
 						car.model, car.colour, car_images.file_name, 
 						car_images.id AS image_id
-				FROM `car_images` 
-				INNER JOIN car ON car.car_id = car_images.car_id ";
+				FROM `car` 
+				LEFT OUTER JOIN car_images ON car_images.car_id = car.car_id ";
 	}
 	
 	$stmt = $mysqli->prepare($sql);
@@ -50,6 +50,7 @@ if(isRequestMethodGet())
 	<meta name="description" content="Carland Motors - Find the best car for you!">
 	<meta name="author" content="Vishwakranti Suryawanshi">
 	<title>Carland Motors</title>
+	<link href="css/carland.css" rel="stylesheet">
 	<!-- Bootstrap core CSS -->
 	<link href="https://getbootstrap.com/docs/5.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 	 crossorigin="anonymous">
@@ -135,15 +136,22 @@ if(isRequestMethodGet())
 									</a>";
 					}
 									
-					echo	  "</div>
-					   	 		<img src=\"./images/" . $car['file_name'] . "\" class=\"card-img-top\" alt=\"...\" width=\"125\" height=\"250\">
-					 	 		<div class=\"card-body\">
-						 			<h5 class=\"card-title\">" . $car['year'] . " " . $car['manufacturer'] . " " . $car['model'] . " " .  $car['colour'] . "</h5>
-						 			<p><strong>$" . $car['price'] . "</strong></p>
-						 			<a href=\"#\" class=\"btn btn-primary\">More Info</a>
+					echo	  "</div>";
+
+					$image_file_name = "image_not_found.png";
+
+					if($car['file_name'])
+						$image_file_name = $car['file_name'];
+
+                        echo "<img src=\"./images/" . $image_file_name . "\" class=\"card-img-top\" alt=\"...\" width=\"125\" height=\"250\">";
+
+						echo "<div class=\"card-body\">
+										<h5 class=\"card-title\">" . $car['year'] . " " . $car['manufacturer'] . " " . $car['model'] . " " .  $car['colour'] . "</h5>
+										<p><strong>$" . $car['price'] . "</strong></p>
+										<a href=\"carDetails.php?car_id=" . $car['car_id'] . "\" class=\"btn btn-primary\">More Info</a>
+									</div>
 								</div>
-							</div>
-						 </div>";
+							</div>";
 
 					if($i == 2)
 						echo '</div>';
